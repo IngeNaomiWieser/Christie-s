@@ -1,0 +1,25 @@
+<div class="well">
+  <%= simple_form_for @auction do |f| %>
+    <%= f.input :title %>
+    <%= f.input :details, as: :text %>
+    <%= f.label :end_date %>
+
+    <div class='input-group date' id='datetimepicker1'>
+      <%= f.input_field :end_date, as: :uuid, class: 'form-control'%>
+      <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+    </div>
+
+    <%= f.input :reserve_price, as: :integer, class: 'form-control' %>
+    <%= f.button :submit, 'Submit', class: 'btn btn-success' %>
+  <% end %>
+
+  <script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+          format: 'DD/MM/YYYY'
+        });
+    });
+  </script>
+</div>

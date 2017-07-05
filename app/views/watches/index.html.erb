@@ -1,0 +1,8 @@
+<h2>Auctions watched by <%= current_user.full_name %> </h2>
+  <br>
+  <ul>
+    <% @auctions.each do |auction| %>
+      <h4><li><%= link_to auction.title, auction %></li></h4>
+      <p> Auction Current State: <%= auction.aasm_state %> <p>
+    <% end %>
+  </ul>

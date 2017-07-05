@@ -1,0 +1,7 @@
+<h2>Bids placed by <%= current_user.full_name %></h2>
+<br>
+<ul>
+  <% @bids&.each do |bid| %>
+    <h4><li><%= link_to "#{bid.auction.title}: $#{bid.bid_price}", "/auctions/#{bid.auction_id}" %></li></h4>
+  <% end %>
+</ul>

@@ -1,0 +1,51 @@
+<h3><%= @auction.title %> </h3>
+<p>Details: <%= @auction.details %> </p>
+<p>Creator: <%= @auction.user.first_name %></p>
+<p>Created On: <%= @auction.created_at.strftime('%F') %></p>
+
+<p> Reserve Price: $ <%= @auction.reserve_price %></p>
+<strong>Current Price: $ <%= @auction.current_price %></strong>
+
+<% if @auction.user == current_user %>
+  <p><%= link_to 'Edit', edit_auction_path(@auction), class: 'btn btn-info' %>
+  <%= link_to 'Delete', auction_path(@auction), method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger' %>
+<% end %></p>
+
+<br>
+
+<% if @auction.user == current_user%>
+  <p>Auction Current State: <%= @auction.aasm_state %>
+  <br>
+  <% if @auction.may_publish? %>
+    <%= link_to 'Publish', auction_publishings_path(@auction), method: :post, class: 'btn btn-default' %>
+  <% end %>
+<% end %></p>
+
+
+<% if user_signed_in? && can?(:watch, @auction) %>
+  <% if @auction.watched_by?(current_user)  %>
+    <%= link_to fa_icon("eye-slash 3x"), auction_watch_path(@auction, @auction.watch_for(current_user)), method: :delete %>
+  <% else %>
+    <%= link_to fa_icon("eye 3x"), auction_watches_path(@auction), method: :post %>
+  <% end %>
+<% end %>
+
+<br><br><br>
+
+<%= render 'bids/form' %>
+
+<br>
+
+<% @bids.each do |b| %>
+<% if b.user_id %>
+  <strong>$ <%= b.bid_price  %></strong>
+  <br>
+  This bid was Sumitted by <%= b.user.first_name  %> <%= b.user.last_name  %>
+  <br>
+    <% if b.user == current_user %>
+      <%= link_to 'Edit', edit_auction_bid_path(b.auction, b), class: 'btn btn-info' %>
+      <%= link_to 'Delete', auction_bid_path(b.auction, b), method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger'  %>
+    <% end %>
+    <hr>
+    <% end %>
+<% end %>

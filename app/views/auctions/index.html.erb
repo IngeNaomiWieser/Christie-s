@@ -1,0 +1,12 @@
+<h2>All Current Auctions </h2>
+<br>
+<% @auctions.each do |auction| %>
+    <div>
+      <% if auction.user_id == current_user&.id%>
+        <h4><i><%= link_to auction.title, auction_path(auction) %></i></h4>
+      <% elsif %>
+        <h4><%= link_to auction.title, auction_path(auction) %></h4>
+      <% end %>
+      <hr>
+    </div>
+<% end %>
